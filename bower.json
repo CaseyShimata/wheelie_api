@@ -1,0 +1,21 @@
+{
+  "name": "stunts_api",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "shimatacb <shimatacb@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "^1.6.1",
+    "angular": "^1.6.1"
+  }
+}
