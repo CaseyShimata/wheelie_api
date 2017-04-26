@@ -16,7 +16,7 @@ var UserSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 var StuntSchema = new mongoose.Schema({
-    _user: { type: Number, ref: 'User', default: 0},
+    _user: {type:Schema.Types.ObjectId, ref: 'User'},
 		avg_speed: {type: Number, default: 0},
 		avg_angle: {type: Number, default: 0},
 		total_angle: {type: Number, default: 0},

@@ -10,7 +10,7 @@ mongoose.Promise = global.Promise;
 var fs = require('fs');
 
 // Connect to the database
-mongoose.connect('mongodb://localhost/stunts_db');
+mongoose.connect('mongodb://localhost/stunts');
 
 // Specify the path to all of the models
 var models_path = __dirname + '/../models';

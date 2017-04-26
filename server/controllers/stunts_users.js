@@ -26,8 +26,9 @@ module.exports = (function() {
 			post_stunt_to_db: function (req, res){
 				console.log(req.body + "********* req.body from line 27 stunts_users")
 				console.log(req.body.avg_speed + "******** avg_speed from 28 in stunts_users.js")
+				console.log(req.session.user + "******** session user ")
 				var newstunt = new Stunt({
-					_user: req.body._user,
+					_user: req.session.user._id,
 					avg_speed: req.body.avg_speed,
 					avg_angle: req.body.avg_angle,
 					total_angle: req.body.total_angle,
@@ -36,7 +37,6 @@ module.exports = (function() {
 					stunt_type: req.body.stunt_type,
 					screen_recording_url: req.body.screen_recording_url,
 					video_url: req.body.video_url,
-
 				});
 				newstunt.save(function(err, data){
 					if(err){
