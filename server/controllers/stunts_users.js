@@ -117,7 +117,7 @@ module.exports = (function() {
   			})
 			},
 			get_one_users_stunts_using_param_id: function (req, res){
-				User.findOne({_id: req.params.user_id}).populate('stunts').exec(function (err, data) {
+				User.findOne({username: req.params.username}).populate('stunts').exec(function (err, data) {
     			if (err) {
         		console.error(`Error: ${error}`)
         		res.send(`Error: ${error}`)
