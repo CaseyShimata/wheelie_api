@@ -35,6 +35,7 @@ module.exports = (function() {
 					total_time: req.body.total_time,
 					total_distance: req.body.total_distance,
 					stunt_type: req.body.stunt_type,
+					total_score: req.body.total_score,
 					screen_recording_url: req.body.screen_recording_url,
 					video_url: req.body.video_url,
 				});

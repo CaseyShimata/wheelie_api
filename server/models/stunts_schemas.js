@@ -23,6 +23,7 @@ var StuntSchema = new mongoose.Schema({
 		total_time: {type: Number, default: 0},
 		total_distance: {type: Number, default: 0},
 		stunt_type: {type: String, default: "nothing input"},
+		total_score: {type: Number, default: 0},
 		screen_recording_url: {type: String, default: "nothing input"},
 		video_url: {type: String, default: "nothing input"}
 }, {timestamps: true});
