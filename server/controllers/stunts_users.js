@@ -48,19 +48,19 @@ module.exports = (function() {
 				})
 			},
 			register: function (req, res){
-				var salt = bcrypt.genSaltSync(10);
 				/// ------ db says - Error: Illegal arguments: undefined, string >
 				console.log(req.body + "*************line 53 stunt_users")
 				console.log(req.body.username + "************* username line 54 stunt_users")
 				console.log(req.body.password + "************* password line 55 stunt_users")
-				var hash = bcrypt.hashSync(req.body.password, salt);
-				var user = new User({username: req.body.username, password: hash, picture_url: req.body.picture_url, motorcycle_decible: req.body.motorcycle_decible});
+				var user = new User({username: req.body.username, password: req.body.password, picture_url: req.body.picture_url, motorcycle_decible: req.body.motorcycle_decible});
+				if user.username ==
 				user.save(function(err,data){ //.save with the new User saves the req.body keys values in the database
 					if(err){
 						res.status(400).send("User did not save.")
 					}
 					else{
 						req.session.user = data;
+						res.json(data)
 						res.sendStatus(200);
 					}
 				})
@@ -69,12 +69,8 @@ module.exports = (function() {
 				User.findOne({username: req.body.username}).exec(function(err, data){
 					console.log(data + "*************line 67 stunts_users")
 					console.log(req.body.password)
-//// ---- error says TypeError: Cannot read property 'password' of null - consider it could be the the way the string is coming to the db doesnt save right
-					if(bcrypt.compareSync(req.body.password, data.password)){
-						console.log("hash check completed successfully")
-						req.session.user = data; //user from login form/ user in the logincontroller/ data: user in the mainfactory/ to session in the server controller and thus server
-						res.sendStatus(200);
-					}
+					req.session.user = data; //user from login form/ user in the logincontroller/ data: user in the mainfactory/ to session in the server controller and thus server
+					res.json(data)
 				})
 			},
 			check_sound_decible_of_current_user: function(req, res){
