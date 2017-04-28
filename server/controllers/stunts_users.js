@@ -52,15 +52,13 @@ module.exports = (function() {
 				console.log(req.body + "*************line 53 stunt_users")
 				console.log(req.body.username + "************* username line 54 stunt_users")
 				console.log(req.body.password + "************* password line 55 stunt_users")
-				var user = new User({username: req.body.username, password: req.body.password, picture_url: req.body.picture_url, motorcycle_decible: req.body.motorcycle_decible}); 
+				var user = new User({username: req.body.username, password: req.body.password, picture_url: req.body.picture_url, motorcycle_decible: req.body.motorcycle_decible});
 				user.save(function(err,data){ //.save with the new User saves the req.body keys values in the database
 					if(err){
 						res.status(400).send("User did not save.")
 					}
 					else{
-						req.session.user = data;
-						res.json(data)
-						res.sendStatus(200);
+						res.sendStatus(200 + data);
 					}
 				})
 			},
