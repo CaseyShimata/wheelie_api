@@ -4,6 +4,7 @@
 
 // Require Mongoose
 var mongoose = require('mongoose');
+var session = require('express-session');
 var bcrypt = require('bcryptjs');
 var User = mongoose.model('User');
 var Stunt = mongoose.model('Stunt');
@@ -19,6 +20,7 @@ module.exports = (function() {
     			}
 					else {
         		console.log(data)
+
         		res.json(data)
     			}
   			})
@@ -37,38 +39,67 @@ module.exports = (function() {
 					stunt_type: req.body.stunt_type,
 					total_score: req.body.total_score,
 					screen_recording_url: req.body.screen_recording_url,
-					video_url: req.body.video_url,
+					video_url: req.body.video_url
 				});
 				newstunt.save(function(err, data){
 					if(err){
 						res.status(400).send("Problem saving post");
 					}
 					else{
-						res.sendStatus(200);
+						console.log(data)
+						res.json(data);
 					}
 				})
 			},
 			register: function (req, res){
-				/// ------ db says - Error: Illegal arguments: undefined, string >
-				console.log(req.body + "*************line 53 stunt_users")
-				console.log(req.body.username + "************* username line 54 stunt_users")
-				console.log(req.body.password + "************* password line 55 stunt_users")
-				var user = new User({username: req.body.username, password: req.body.password, picture_url: req.body.picture_url, motorcycle_decible: req.body.motorcycle_decible});
-				user.save(function(err,data){ //.save with the new User saves the req.body keys values in the database
+				User.findOne({username: req.body.username}).exec(function(err, data){
 					if(err){
-						res.status(400).send("User did not save.")
+						res.status(400).send({})
 					}
-					else{
-						res.sendStatus(200 + data);
+					else {
+						if (!data) {
+							console.log("Good !!! User doesnt exist yet found.")
+							var user = new User({username: req.body.username, password: req.body.password, picture_url: req.body.picture_url, motorcycle_decible: req.body.motorcycle_decible});
+							user.save(function(err){ //.save with the new User saves the req.body keys values in the database
+								if(err){
+									res.status(400).send("User did not save.")
+								}
+								else{
+									req.session.user = user;
+									console.log(user)
+									res.json(user)
+								}
+							})
+						}
+						else {
+							console.log("user exists")
+							res.status(400).send({message: "user exists"})
+						}
 					}
 				})
 			},
+				/// ------ db says - Error: Illegal arguments: undefined, string >
+
 			login: function (req, res){
 				User.findOne({username: req.body.username}).exec(function(err, data){
-					console.log(data + "*************line 67 stunts_users")
-					console.log(req.body.password)
-					req.session.user = data; //user from login form/ user in the logincontroller/ data: user in the mainfactory/ to session in the server controller and thus server
-					res.json(data)
+					if (data) {
+						console.log("Good.. User exists.")
+						var db_user = data
+						var user = req.body
+						if (db_user.password == user.password) {
+							console.log(user)
+							req.session.user = data;
+							console.log(req.session.user.username)
+							res.json(user)
+						}
+						else {
+							console.log("user pass doesn't match")
+							res.status(400).send({message: "user pass doesn't match"})
+						}
+					}
+					else {
+						res.status(400).send({message: "user with username entered doesn't exist"})
+					}
 				})
 			},
 			check_sound_decible_of_current_user: function(req, res){
