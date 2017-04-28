@@ -12,7 +12,7 @@ var UserSchema = new mongoose.Schema({
 	password: {type: String, default: "nothing input"},
 	picture_url: {type: String, default: "nothing input"},
 	motorcycle_decible: {type: Number, default: 0},
-	stunts: [{type: Schema.Types.ObjectId, ref: 'Stunt'}],
+	stunts: [{type: Schema.Types.ObjectId, ref: 'Stunt'}]
 }, {timestamps: true});
 
 var StuntSchema = new mongoose.Schema({
